@@ -72,7 +72,7 @@ namespace Lab4_EDII
                     }
                 }
             }
-            string folder = @"C:\Cipher\";
+            string folder = @"C:\Cifrado\";
             string fullPath = folder + nombreArchivo;
             DirectoryInfo directory = Directory.CreateDirectory(folder);
             using (StreamWriter file = new StreamWriter(fullPath))
