@@ -100,7 +100,7 @@ namespace Lab4_EDII
                 }
             }
 
-            string folder = @"C:\Cifrado\";
+            string folder = @"C:\";
             string fullPath = folder + fileName;
             DirectoryInfo directory = Directory.CreateDirectory(folder);
             using (StreamWriter file = new StreamWriter(fullPath))
@@ -131,7 +131,7 @@ namespace Lab4_EDII
                         decipherText += alfabetoOriginal[aux];
                 }
             }
-            string folder = @"C:\Cifrado\";
+            string folder = @"C:\";
             string fullPath = folder + fileName;
             DirectoryInfo directory = Directory.CreateDirectory(folder);
             using (StreamWriter file = new StreamWriter(fullPath))
