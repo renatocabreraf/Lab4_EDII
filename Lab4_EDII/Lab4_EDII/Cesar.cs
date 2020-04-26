@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,135 +10,160 @@ namespace Lab4_EDII
 {
     public class Cesar
     {
-        string palabraClave { get; set; }
-        List<char> nuevoAlfabeto = new List<char>();
-        List<char> alfabetoOriginal = new List<char>();
-        bool flag;
-        public Cesar(string word)
+        private char[] VerificacionCadena(IFormFile Archivo, int LongitudLlave)
         {
-            palabraClave = word;
+            char[] TextoCompleto = null;
+            char[] Resultante = null;
+            string Temp;
+            using (var Lectura = new StreamReader(Archivo.OpenReadStream()))
+            {
+                var CapturarArchivo = new StringBuilder();
+                while (Lectura.Peek() >= 0)
+                {
+                    CapturarArchivo.AppendLine(Lectura.ReadLine());
+                }
+                Temp = CapturarArchivo.ToString();
+                if (Temp.Contains("\r\n"))
+                {
+                    Temp = Temp.Replace("\r\n", "\n");
+                }
+                TextoCompleto = Temp.ToCharArray();
+            }
+            return Resultante;
         }
-        public void buildAlphabet()
+        string Llave { get; set; }
+        List<char> AlfabetoOriginal = new List<char>();
+        List<char> AlfabetoNuevo = new List<char>();
+        bool Condicion;
+        public Cesar()
         {
-            List<byte> modified = new List<byte>();
+        }
+        public void ConstruirAlfabeto()
+        {
             List<byte> original = new List<byte>();
-
-            byte[] keyWrdByt = Encoding.ASCII.GetBytes(palabraClave);
-            modified.AddRange(keyWrdByt);
-
+            List<byte> alterado = new List<byte>();
+            byte[] BytesLlave = Encoding.ASCII.GetBytes(Llave);
+            alterado.AddRange(BytesLlave);
             for (int i = 97; i < 123; i++)
             {
                 original.Add((byte)i);
-                modified.Add((byte)i);
+                alterado.Add((byte)i);
             }
-
-            modified = modified.Distinct().ToList();
-
+            alterado = alterado.Distinct().ToList();
             for (int i = 0; i < original.Count; i++)
             {
-                alfabetoOriginal.Add(Convert.ToChar(original[i]));
+                AlfabetoOriginal.Add(Convert.ToChar(original[i]));
             }
-
-            for (int i = 0; i < modified.Count; i++)
+            for (int i = 0; i < alterado.Count; i++)
             {
-                nuevoAlfabeto.Add(Convert.ToChar(modified[i]));
+                AlfabetoNuevo.Add(Convert.ToChar(alterado[i]));
             }
         }
-        private int searchInAlphabet(char character)
+
+        private int BusquedaEnAlfabeto(char Letra)
         {
-            for (int i = 0; i < alfabetoOriginal.Count; i++)
+            for (int i = 0; i < AlfabetoOriginal.Count; i++)
             {
-                if (character == alfabetoOriginal[i])
+                if (Letra == AlfabetoOriginal[i])
                 {
-                    flag = false;
+                    Condicion = false;
                     return i;
                 }
-                else if (character == Char.ToUpper(alfabetoOriginal[i]))
+                else if (Letra == Char.ToUpper(AlfabetoOriginal[i]))//Se valida que todo sea igual en mayúsculas
                 {
-                    flag = true;
+                    Condicion = true;
                     return i;
                 }
             }
             return -1;
         }
-        private int searchInnuevoAlfabeto(char character)
+        //Luego de armar el nuevo alfabeto, se hará la búsqueda de cada letra con su nueva equivalencia
+        private int BusquedaEnAlfabetoNuevo(char Letra)
         {
-            for (int i = 0; i < nuevoAlfabeto.Count; i++)
+            for (int i = 0; i < AlfabetoNuevo.Count; i++)
             {
-                if (character == nuevoAlfabeto[i])
+                if (Letra == AlfabetoNuevo[i])
                 {
-                    flag = false;
+                    Condicion = false;
                     return i;
                 }
-                else if (character == Char.ToUpper(nuevoAlfabeto[i]))
+                else if (Letra == Char.ToUpper(AlfabetoNuevo[i]))
                 {
-                    flag = true;
+                    Condicion = true;
                     return i;
                 }
             }
             return -1;
         }
-        public void cipher(StringBuilder input, string fileName)
+        public void CifradoCesar(IFormFile Archivo, int LongitudLlave, string NombreArchivo, string path)
         {
-            string encryptedText = "";
-            string text = input.ToString();
-            text = input.ToString();
-            text = text.Remove(text.Length - 1);
-            text = text.Remove(text.Length - 1);
-            for (int i = 0; i < text.Length; i++)
+
+            string TextoCifrado = "";
+            string TextoCompleto = Archivo.ToString();
+            TextoCompleto = Archivo.ToString();
+            char[] ArregloValores = VerificacionCadena(Archivo, LongitudLlave);
+            string[] CadenaCifrada = new string[ArregloValores.Length];
+            TextoCompleto = TextoCompleto.Remove(TextoCompleto.Length - 1);
+            TextoCompleto = TextoCompleto.Remove(TextoCompleto.Length - 1);
+            for (int i = 0; i < TextoCompleto.Length; i++)
             {
-                int aux = searchInAlphabet(text[i]);
-                if (aux == -1)
+                int temp = BusquedaEnAlfabeto(TextoCompleto[i]);
+                if (temp == -1)
                 {
-                    encryptedText += text[i];
+                    TextoCifrado += TextoCompleto[i];
                 }
                 else
                 {
-                    if (flag)
-                        encryptedText += char.ToUpper(nuevoAlfabeto[aux]);
+                    if (Condicion)
+                    {
+                        TextoCifrado += char.ToUpper(AlfabetoNuevo[temp]);
+                    }
                     else
-                        encryptedText += nuevoAlfabeto[aux];
+                    {
+                        TextoCifrado += AlfabetoNuevo[temp];
+                    }
                 }
             }
-
-            string folder = @"C:\";
-            string fullPath = folder + fileName;
-            DirectoryInfo directory = Directory.CreateDirectory(folder);
-            using (StreamWriter file = new StreamWriter(fullPath))
+            EscrituraCifradoCesar(CadenaCifrada, NombreArchivo, path);
+        }
+        private void EscrituraCifradoCesar(string[] CadenaCifrada, string NombreArchivo, string pathArchivo)
+        {
+            var path = Path.Combine(pathArchivo, System.IO.Path.GetFileNameWithoutExtension(NombreArchivo) + ".txt");
+            using (StreamWriter Escritura = new StreamWriter(path))
             {
-                file.WriteLine(encryptedText);
-                file.Close();
+                foreach (string item in CadenaCifrada)
+                {
+                    Escritura.Write(item);
+                }
+                Escritura.Close();
             }
         }
-        public void decipher(StringBuilder input, string fileName)
+        public void DescifradoCesar(IFormFile Archivo, int LongitudLlave, string NombreArchivo, string path)
         {
-            string decipherText = "";
-            string text = input.ToString();
-            text = input.ToString();
-            text = text.Remove(text.Length - 1);
-            text = text.Remove(text.Length - 1);
-            for (int i = 0; i < text.Length; i++)
+
+            string TextoDescifrado = "";
+            string TextoCompleto = Archivo.ToString();
+            TextoCompleto = Archivo.ToString();
+            TextoCompleto = TextoCompleto.Remove(TextoCompleto.Length - 1);
+            TextoCompleto = TextoCompleto.Remove(TextoCompleto.Length - 1);
+            for (int i = 0; i < TextoCompleto.Length; i++)
             {
-                int aux = searchInnuevoAlfabeto(text[i]);
-                if (aux == -1)
+                int temp = BusquedaEnAlfabetoNuevo(TextoCompleto[i]);
+                if (temp == -1)
                 {
-                    decipherText += text[i];
+                    TextoDescifrado += TextoCompleto[i];
                 }
                 else
                 {
-                    if (flag)
-                        decipherText += char.ToUpper(alfabetoOriginal[aux]);
+                    if (Condicion)
+                    {
+                        TextoDescifrado += char.ToUpper(AlfabetoOriginal[temp]);
+                    }
                     else
-                        decipherText += alfabetoOriginal[aux];
+                    {
+                        TextoDescifrado += AlfabetoOriginal[temp];
+                    }
                 }
-            }
-            string folder = @"C:\";
-            string fullPath = folder + fileName;
-            DirectoryInfo directory = Directory.CreateDirectory(folder);
-            using (StreamWriter file = new StreamWriter(fullPath))
-            {
-                file.WriteLine(decipherText);
-                file.Close();
             }
         }
     }
