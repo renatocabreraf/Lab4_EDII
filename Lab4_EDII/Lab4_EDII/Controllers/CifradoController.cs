@@ -53,7 +53,7 @@ namespace CifradoController.Controllers
                 string[] dimensiones = parameters[0].Split('x');
                 int m = int.Parse(dimensiones[0]);
                 int n = int.Parse(dimensiones[1]);
-                Ruta routeCipher = new Ruta(m, n, result.ToString(), fileName);
+                RutaEspiral routeCipher = new RutaEspiral(m, n, result.ToString(), fileName);
                 if (parameters[1].ToLower().Equals("vertical"))
                 {
                     routeCipher.vertical();
