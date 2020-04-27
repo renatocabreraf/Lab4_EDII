@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Lab4_EDII.Controllers
 {
-    public class Master
+    public class CifradoController
     {
         public static IWebHostEnvironment _environment;
-        public Master(IWebHostEnvironment environment)
+        public CifradoController(IWebHostEnvironment environment)
         {
             _environment = environment;
         }
