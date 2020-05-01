@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Renato\\Desktop\\Lab3\\Lab5_ED2-master\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {}
+    "C:\\Users\\Renato\\Desktop\\URL\\Estructura de Datos II\\Repo EDII\\Lab4_EDII\\Lab4_EDII\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Renato\\Desktop\\Lab3\\Lab5_ED2-master\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {
+    "C:\\Users\\Renato\\Desktop\\URL\\Estructura de Datos II\\Repo EDII\\Lab4_EDII\\Lab4_EDII\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Renato\\Desktop\\Lab3\\Lab5_ED2-master\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
+        "projectUniqueName": "C:\\Users\\Renato\\Desktop\\URL\\Estructura de Datos II\\Repo EDII\\Lab4_EDII\\Lab4_EDII\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
         "projectName": "CipherMethods",
-        "projectPath": "C:\\Users\\Renato\\Desktop\\Lab3\\Lab5_ED2-master\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
+        "projectPath": "C:\\Users\\Renato\\Desktop\\URL\\Estructura de Datos II\\Repo EDII\\Lab4_EDII\\Lab4_EDII\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
         "packagesPath": "C:\\Users\\Renato\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Renato\\Desktop\\Lab3\\Lab5_ED2-master\\CipherMethods\\CipherMethods\\obj\\",
+        "outputPath": "C:\\Users\\Renato\\Desktop\\URL\\Estructura de Datos II\\Repo EDII\\Lab4_EDII\\Lab4_EDII\\CipherMethods\\CipherMethods\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

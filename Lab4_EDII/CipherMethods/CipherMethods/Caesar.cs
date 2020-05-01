@@ -106,7 +106,7 @@ namespace CipherMethods
             }
 
             //escribir archivo 
-            string folder = @"C:\Cipher\";
+            string folder = @"C:\Lab4\";
             string fullPath = folder + fileName;
             // crear el directorio
             DirectoryInfo directory = Directory.CreateDirectory(folder);
@@ -143,7 +143,7 @@ namespace CipherMethods
             }
 
             //escribir archivo 
-            string folder = @"C:\Cipher\";
+            string folder = @"C:\Lab4\";
             string fullPath = folder + fileName;
             // crear el directorio
             DirectoryInfo directory = Directory.CreateDirectory(folder);
