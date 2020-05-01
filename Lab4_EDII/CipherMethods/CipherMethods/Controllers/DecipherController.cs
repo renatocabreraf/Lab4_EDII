@@ -35,49 +35,98 @@ namespace CipherMethods.Controllers
         {
             //lectura del archivo
             var result = new StringBuilder();
-            using (var reader = new StreamReader(file.OpenReadStream()))
+            string path = @"c:\Lab4";
+            if (Directory.Exists(path))
             {
-                while (reader.Peek() >= 0)
-                    result.AppendLine(reader.ReadLine());
-            }
-
-            if (name.ToLower().Equals("zigzag"))
-            {
-                ZigZag zigzagCipher = new ZigZag();
-                zigzagCipher.decipher(int.Parse(param), result, fileName);
-                return "Texto desencriptado, método: ZigZag";
-            }
-            else if (name.ToLower().Equals("caesar"))
-            {
-                Caesar caesarCipher = new Caesar(param);
-                caesarCipher.buildAlphabet();
-                caesarCipher.decipher(result, fileName);
-                return "Texto descifrado, método: Caesar";
-            }
-            else if (name.ToLower().Equals("ruta"))
-            {
-                string[] parameters = param.Split(','); // la forma de ingresar parametro "mxn,tipo de ruta"
-                string[] dimensiones = parameters[0].Split('x');
-                int m = int.Parse(dimensiones[0]);
-                int n = int.Parse(dimensiones[1]);
-                Route routeCipher = new Route(m, n, result.ToString(), fileName);
-
-                if (parameters[1].ToLower().Equals("vertical"))
+                using (var reader = new StreamReader(file.OpenReadStream()))
                 {
-                    routeCipher.decipherVertical();
+                    while (reader.Peek() >= 0)
+                        result.AppendLine(reader.ReadLine());
+                }
+
+                if (name.ToLower().Equals("zigzag"))
+                {
+                    ZigZag zigzagCipher = new ZigZag();
+                    zigzagCipher.decipher(int.Parse(param), result, fileName);
+                    return "Texto desencriptado, método: ZigZag";
+                }
+                else if (name.ToLower().Equals("caesar"))
+                {
+                    Caesar caesarCipher = new Caesar(param);
+                    caesarCipher.buildAlphabet();
+                    caesarCipher.decipher(result, fileName);
+                    return "Texto descifrado, método: Caesar";
+                }
+                else if (name.ToLower().Equals("ruta"))
+                {
+                    string[] parameters = param.Split(','); // la forma de ingresar parametro "mxn,tipo de ruta"
+                    string[] dimensiones = parameters[0].Split('x');
+                    int m = int.Parse(dimensiones[0]);
+                    int n = int.Parse(dimensiones[1]);
+                    Route routeCipher = new Route(m, n, result.ToString(), fileName);
+
+                    if (parameters[1].ToLower().Equals("vertical"))
+                    {
+                        routeCipher.decipherVertical();
+                    }
+                    else
+                    {
+                        routeCipher.decipherSpiral();
+                    }
+
+                    return "Texto descifrado, método: Ruta";
                 }
                 else
                 {
-                    routeCipher.decipherSpiral();
+                    return "MÉTODO INCORRECTO";
                 }
-
-                return "Texto descifrado, método: Ruta";
             }
             else
             {
-                return "MÉTODO INCORRECTO";
-            }
+                DirectoryInfo di = Directory.CreateDirectory(path);
+                using (var reader = new StreamReader(file.OpenReadStream()))
+                {
+                    while (reader.Peek() >= 0)
+                        result.AppendLine(reader.ReadLine());
+                }
 
+                if (name.ToLower().Equals("zigzag"))
+                {
+                    ZigZag zigzagCipher = new ZigZag();
+                    zigzagCipher.decipher(int.Parse(param), result, fileName);
+                    return "Texto desencriptado, método: ZigZag";
+                }
+                else if (name.ToLower().Equals("caesar"))
+                {
+                    Caesar caesarCipher = new Caesar(param);
+                    caesarCipher.buildAlphabet();
+                    caesarCipher.decipher(result, fileName);
+                    return "Texto descifrado, método: Caesar";
+                }
+                else if (name.ToLower().Equals("ruta"))
+                {
+                    string[] parameters = param.Split(','); // la forma de ingresar parametro "mxn,tipo de ruta"
+                    string[] dimensiones = parameters[0].Split('x');
+                    int m = int.Parse(dimensiones[0]);
+                    int n = int.Parse(dimensiones[1]);
+                    Route routeCipher = new Route(m, n, result.ToString(), fileName);
+
+                    if (parameters[1].ToLower().Equals("vertical"))
+                    {
+                        routeCipher.decipherVertical();
+                    }
+                    else
+                    {
+                        routeCipher.decipherSpiral();
+                    }
+
+                    return "Texto descifrado, método: Ruta";
+                }
+                else
+                {
+                    return "MÉTODO INCORRECTO";
+                }
+            }
         }
 
         // PUT: api/Decipher/5
